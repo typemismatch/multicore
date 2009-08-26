@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{66524766-CD8A-4016-99E1-B14C5A052663}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MultiCore</RootNamespace>
+    <AssemblyName>multicore</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Amazon\Providers\Membership.cs" />
+    <Compile Include="Amazon\Providers\Role.cs" />
+    <Compile Include="Amazon\Providers\SDBProvider.cs" />
+    <Compile Include="Amazon\Providers\StandAlone.cs" />
+    <Compile Include="Amazon\Providers\MCItem.cs" />
+    <Compile Include="Amazon\Providers\MCProvider.cs" />
+    <Compile Include="Amazon\Providers\MCProviderCollection.cs" />
+    <Compile Include="Amazon\Providers\MCProviderConfiguration.cs" />
+    <Compile Include="Amazon\Providers\MCProviderManager.cs" />
+    <Compile Include="Amazon\SimpleDB\AmazonSimpleDB.cs" />
+    <Compile Include="Amazon\SimpleDB\AmazonSimpleDBClient.cs" />
+    <Compile Include="Amazon\SimpleDB\AmazonSimpleDBConfig.cs" />
+    <Compile Include="Amazon\SimpleDB\AmazonSimpleDBException.cs" />
+    <Compile Include="Amazon\SimpleDB\Mock\AmazonSimpleDBMock.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\Attribute.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\BatchPutAttributesRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\BatchPutAttributesResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\CreateDomainRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\CreateDomainResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DeleteAttributesRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DeleteAttributesResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DeleteDomainRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DeleteDomainResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DomainMetadataRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DomainMetadataResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\DomainMetadataResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\Error.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ErrorResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\GetAttributesRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\GetAttributesResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\GetAttributesResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\Item.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ListDomainsRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ListDomainsResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ListDomainsResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\PutAttributesRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\PutAttributesResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryWithAttributesRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryWithAttributesResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\QueryWithAttributesResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ReplaceableAttribute.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ReplaceableItem.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\ResponseMetadata.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\SelectRequest.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\SelectResponse.cs" />
+    <Compile Include="Amazon\SimpleDB\Model\SelectResult.cs" />
+    <Compile Include="Amazon\SimpleDB\Util\AmazonSimpleDBUtil.cs" />
+    <Compile Include="Amazon\SQS\AmazonSQS.cs" />
+    <Compile Include="Amazon\SQS\AmazonSQSClient.cs" />
+    <Compile Include="Amazon\SQS\AmazonSQSConfig.cs" />
+    <Compile Include="Amazon\SQS\AmazonSQSException.cs" />
+    <Compile Include="Amazon\SQS\Mock\AmazonSQSMock.cs" />
+    <Compile Include="Amazon\SQS\Model\AddPermissionRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\AddPermissionResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\Attribute.cs" />
+    <Compile Include="Amazon\SQS\Model\ChangeMessageVisibilityRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\ChangeMessageVisibilityResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\CreateQueueRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\CreateQueueResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\CreateQueueResult.cs" />
+    <Compile Include="Amazon\SQS\Model\DeleteMessageRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\DeleteMessageResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\DeleteQueueRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\DeleteQueueResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\Error.cs" />
+    <Compile Include="Amazon\SQS\Model\ErrorResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\GetQueueAttributesRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\GetQueueAttributesResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\GetQueueAttributesResult.cs" />
+    <Compile Include="Amazon\SQS\Model\ListQueuesRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\ListQueuesResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\ListQueuesResult.cs" />
+    <Compile Include="Amazon\SQS\Model\Message.cs" />
+    <Compile Include="Amazon\SQS\Model\ReceiveMessageRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\ReceiveMessageResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\ReceiveMessageResult.cs" />
+    <Compile Include="Amazon\SQS\Model\RemovePermissionRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\RemovePermissionResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\ResponseMetadata.cs" />
+    <Compile Include="Amazon\SQS\Model\SendMessageRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\SendMessageResponse.cs" />
+    <Compile Include="Amazon\SQS\Model\SendMessageResult.cs" />
+    <Compile Include="Amazon\SQS\Model\SetQueueAttributesRequest.cs" />
+    <Compile Include="Amazon\SQS\Model\SetQueueAttributesResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

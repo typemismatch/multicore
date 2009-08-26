@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemovePermissionResponse xmlns="http://queue.amazonaws.com/doc/2009-02-01/">
+  <ResponseMetadata>
+    <RequestId>string</RequestId>
+  </ResponseMetadata>
+</RemovePermissionResponse>
