@@ -31,6 +31,7 @@ namespace MultiCore.Amazon.Providers
     {
         string accessKey = "";
         string secretKey = "";
+        string domainPrefix = "";
         AmazonSimpleDB client;
 
         public override void Initialize(string name, NameValueCollection config)
@@ -41,6 +42,9 @@ namespace MultiCore.Amazon.Providers
             secretKey = config["secretKey"];
             if (string.IsNullOrEmpty(accessKey)) throw new ConfigurationErrorsException("AWS Access Key is required.");
             if (string.IsNullOrEmpty(secretKey)) throw new ConfigurationErrorsException("AWS Secret Key is required.");
+
+            // Set any domain prefix
+            if (!string.IsNullOrEmpty(config["domainPrefix"])) domainPrefix = config["domainPrefix"];
 
             client = new AmazonSimpleDBClient(accessKey, secretKey);
 
@@ -64,6 +68,7 @@ namespace MultiCore.Amazon.Providers
         /// <returns></returns>
         public override MCItem GetItem(string ItemName, string Domain)
         {
+            Domain = SetDomain(Domain);
             GetAttributesRequest request = new GetAttributesRequest().WithDomainName(Domain).WithItemName(ItemName);
             GetAttributesResponse response = client.GetAttributes(request);
             MCItem item = new MCItem();
@@ -79,6 +84,7 @@ namespace MultiCore.Amazon.Providers
 
         public override void SaveItem(MCItem item)
         {
+            item.Domain = SetDomain(item.Domain);
             PutAttributesRequest request = new PutAttributesRequest().WithDomainName(item.Domain).WithItemName(item.ItemName);
             List<ReplaceableAttribute> attributes = new List<ReplaceableAttribute>();
             foreach (string key in item.Attributes.Keys)
@@ -96,6 +102,7 @@ namespace MultiCore.Amazon.Providers
         /// <returns></returns>
         public override List<MCItem> GetItems(string Domain)
         {
+            Domain = SetDomain(Domain);
             SelectRequest request = new SelectRequest().WithSelectExpression("Select * from " + Domain);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
@@ -116,6 +123,7 @@ namespace MultiCore.Amazon.Providers
 
         public override List<MCItem> Select(string Query, string Domain)
         {
+            Domain = SetDomain(Domain);
             SelectRequest request = new SelectRequest().WithSelectExpression(Query);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
@@ -130,8 +138,15 @@ namespace MultiCore.Amazon.Providers
 
         public override void DeleteItem(string ItemName,string Domain)
         {
+            Domain = SetDomain(Domain);
             DeleteAttributesRequest request = new DeleteAttributesRequest().WithDomainName(Domain).WithItemName(ItemName);
             client.DeleteAttributes(request);
+        }
+
+        private string SetDomain(string Domain)
+        {
+            if (!string.IsNullOrEmpty(domainPrefix)) return domainPrefix + Domain;
+            else return Domain;
         }
     }
 }
