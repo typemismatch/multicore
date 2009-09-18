@@ -153,5 +153,11 @@ namespace MultiCore.Amazon.Providers
             if (!string.IsNullOrEmpty(domainPrefix)) return domainPrefix + Domain;
             else return Domain;
         }
+
+        public void CreateDomain(string Domain)
+        {
+            CreateDomainRequest request = new CreateDomainRequest().WithDomainName(Domain);
+            client.CreateDomain(request);
+        }
     }
 }

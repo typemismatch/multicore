@@ -31,5 +31,6 @@ namespace MultiCore.Amazon.Providers
         public abstract void SaveItem(MCItem item, string Domain);
         public abstract List<MCItem> Select(string Query, string Domain);
         public abstract void DeleteItem(string ItemName, string Domain);
+        public abstract void CreateDomain(string Domain);
     }
 }
