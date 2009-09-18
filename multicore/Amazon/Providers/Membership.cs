@@ -51,7 +51,7 @@ namespace MultiCore.Amazon.Providers
     public sealed class SDBMembershipProvider : MembershipProvider
     {
 
-        private string eventSource = "SDBProvider";
+        private string eventSource = "SDBMembershipProvider";
         private string eventLog = "Application";
         private string exceptionMessage = "An exception occurred. Please check the Event Log.";
         private string accessKey = "";
