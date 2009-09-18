@@ -66,7 +66,8 @@ namespace MultiCore.Amazon.Providers
             client = new AmazonSimpleDBClient(accessKey, secretKey);
             foreach (string domain in domains)
             {
-                CreateDomainRequest request = new CreateDomainRequest().WithDomainName(domain);
+                string _domain = SetDomain(domain);
+                CreateDomainRequest request = new CreateDomainRequest().WithDomainName(_domain);
                 client.CreateDomain(request);
             }
         }
@@ -156,6 +157,7 @@ namespace MultiCore.Amazon.Providers
 
         public void CreateDomain(string Domain)
         {
+            Domain = SetDomain(Domain);
             CreateDomainRequest request = new CreateDomainRequest().WithDomainName(Domain);
             client.CreateDomain(request);
         }

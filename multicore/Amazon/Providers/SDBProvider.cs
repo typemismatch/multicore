@@ -54,7 +54,8 @@ namespace MultiCore.Amazon.Providers
                 string[] domains = config["domains"].ToString().Split(new char[] { ',' });
                 foreach (string domain in domains)
                 {
-                    CreateDomainRequest request = new CreateDomainRequest().WithDomainName(domain);
+                    string _domain = SetDomain(domain);
+                    CreateDomainRequest request = new CreateDomainRequest().WithDomainName(_domain);
                     client.CreateDomain(request);
                 }
             }
@@ -151,6 +152,7 @@ namespace MultiCore.Amazon.Providers
 
         public override void CreateDomain(string Domain)
         {
+            Domain = SetDomain(Domain);
             CreateDomainRequest request = new CreateDomainRequest().WithDomainName(Domain);
             client.CreateDomain(request);
         }
