@@ -249,16 +249,70 @@ namespace MultiCore.Amazon.Providers
             throw new NotImplementedException();
         }
 
-        public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection collection)
+        public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext sc, SettingsPropertyCollection collection)
         {
-            
+            string username = (string)sc["UserName"];
+            SettingsPropertyValueCollection properties = new SettingsPropertyValueCollection();
+
+            GetAttributesRequest request = new GetAttributesRequest().WithDomainName(domain).WithItemName(username);
+            GetAttributesResponse response = client.GetAttributes(request);
+
+            // Setup defaults ...
+
+            foreach (SettingsProperty prop in collection)
+            {
+                SettingsPropertyValue value = new SettingsPropertyValue(prop);
+                value.PropertyValue = prop.DefaultValue;
+                properties.Add(value);
+            }
+
+            if (response.GetAttributesResult.Attribute.Count > 0)
+            {
+                List<Attribute> attributes = response.GetAttributesResult.Attribute;
+                MCItem item = new MCItem();
+                item.Domain = domain;
+                item.ItemName = username;
+                item.Attributes = new Hashtable();
+                foreach (Attribute attribute in attributes)
+                {
+                    item.Attributes.Add(attribute.Name, attribute.Value);
+                }
+                foreach (SettingsProperty prop in collection)
+                {
+                    SettingsPropertyValue value = properties[prop.Name];
+                    value.PropertyValue = item.Attributes[prop.Name];
+                    //value.Deserialized = true;
+                }
+            }
+
+            return properties;
         }
 
-        public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
+        public override void SetPropertyValues(SettingsContext sc, SettingsPropertyValueCollection properties)
         {
-            foreach (SettingsProperty property in collection)
+            string username = (string)sc["UserName"];
+            bool userIsAuthenticated = (bool)sc["IsAuthenticated"];
+
+            MCItem item = new MCItem(username, domain);
+            item.Attributes.Add("Anon", "");
+            item.Attributes.Add("LastUpdated", DateTime.Now.ToShortDateString());
+
+            foreach (SettingsPropertyValue property in properties)
             {
+                if (property.PropertyValue != null)
+                {
+                    item.Attributes.Add(property.Name, property.PropertyValue.ToString());
+                }
             }
+
+            PutAttributesRequest request = new PutAttributesRequest().WithDomainName(item.Domain).WithItemName(item.ItemName);
+            List<ReplaceableAttribute> attributes = new List<ReplaceableAttribute>();
+            foreach (string key in item.Attributes.Keys)
+            {
+                attributes.Add(new ReplaceableAttribute().WithName(key).WithValue(item.Attributes[key].ToString()).WithReplace(true));
+            }
+            request.Attribute = attributes;
+            client.PutAttributes(request);
         }
     }
 }
