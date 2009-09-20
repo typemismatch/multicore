@@ -4,6 +4,7 @@ Wraps the Amazon .NET libraries to provide for easier use and plug in support fo
 
 * ASP.NET Membership provider using the Simple DB storage system.
 * ASP.NET Role provider using the Simple DB storage system.
+* ASP.NET Profile provider using the Simple DB storage system.
 * Provider system to give easy access to simple DB via the provider pattern.
 * Stand-alone provider to give immediate access to Simple DB without the need for config files.
 
@@ -17,6 +18,6 @@ note: Supports the SQS 2009-02-01 API version.
 
 Usage: See our github WIKI!
 
-This project will remain MONO 2.4 compatible.
+This project will remain MONO 2.4 compatible. Please note these providers are not yet compatible with DNN5 but will be in the future.
 
 This project is licensed under the Apache License, Version 2.0.
