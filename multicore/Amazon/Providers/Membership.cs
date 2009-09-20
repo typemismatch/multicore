@@ -51,7 +51,7 @@ namespace MultiCore.Amazon.Providers
     public sealed class SDBMembershipProvider : MembershipProvider
     {
 
-        private string eventSource = "SDBProvider";
+        private string eventSource = "SDBMembershipProvider";
         private string eventLog = "Application";
         private string exceptionMessage = "An exception occurred. Please check the Event Log.";
         private string accessKey = "";
@@ -314,8 +314,6 @@ namespace MultiCore.Amazon.Providers
                  object providerUserKey,
                  out MembershipCreateStatus status)
         {
-
-
             MembershipUser u = GetUser(username, false);
 
             if (u == null)
@@ -326,8 +324,10 @@ namespace MultiCore.Amazon.Providers
                     List<ReplaceableAttribute> data = new List<ReplaceableAttribute>();
                     data.Add(new ReplaceableAttribute().WithName("Email").WithValue(email));
                     data.Add(new ReplaceableAttribute().WithName("Password").WithValue(password));
-                    data.Add(new ReplaceableAttribute().WithName("PasswordQuestion").WithValue(passwordQuestion));
-                    data.Add(new ReplaceableAttribute().WithName("PasswordAnswer").WithValue(passwordAnswer));
+                    if (passwordQuestion != null)
+                        data.Add(new ReplaceableAttribute().WithName("PasswordQuestion").WithValue(passwordQuestion));
+                    if (passwordAnswer != null)
+                        data.Add(new ReplaceableAttribute().WithName("PasswordAnswer").WithValue(passwordAnswer));
                     data.Add(new ReplaceableAttribute().WithName("IsApproved").WithValue(isApproved.ToString()));
                     PutAttributesRequest request = new PutAttributesRequest().WithDomainName(domain).WithItemName(username);
                     request.Attribute = data;

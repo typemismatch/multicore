@@ -16,21 +16,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
-using System.Web;
-using System.Configuration.Provider;
+using System.Text;
 
 namespace MultiCore.Amazon.Providers
 {
-    public abstract class MCProvider : ProviderBase
+    public class Helper
     {
-        public abstract MCItem GetItem(string ItemName, string Domain);
-        public abstract List<MCItem> GetItems(string Domain);
-        public abstract void SaveItem(MCItem item);
-        public abstract void SaveItem(MCItem item, string Domain);
-        public abstract List<MCItem> Select(string Query, string Domain);
-        public abstract void DeleteItem(string ItemName, string Domain);
-        public abstract void CreateDomain(string Domain);
+        /// <summary>
+        /// Initial helper method to protect against SDB Injection Attacks
+        /// Currently just deals with ' issues.
+        /// </summary>
+        /// <param name="SQL"></param>
+        /// <returns></returns>
+        public static string SQLSafe(string SQL)
+        {
+            return SQL.Replace("'", "''");
+        }
     }
 }

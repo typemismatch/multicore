@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Amazon\Providers\Helper.cs" />
     <Compile Include="Amazon\Providers\Membership.cs" />
+    <Compile Include="Amazon\Providers\Profile.cs" />
     <Compile Include="Amazon\Providers\Role.cs" />
     <Compile Include="Amazon\Providers\SDBProvider.cs" />
     <Compile Include="Amazon\Providers\StandAlone.cs" />

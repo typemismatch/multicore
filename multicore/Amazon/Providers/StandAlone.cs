@@ -32,6 +32,7 @@ namespace MultiCore.Amazon.Providers
     {
         string accessKey = "";
         string secretKey = "";
+        string domainPrefix = "";
         string[] domains;
         AmazonSimpleDB client;
 
@@ -51,18 +52,29 @@ namespace MultiCore.Amazon.Providers
             Init();
         }
 
+        public StandAlone(string AccessKey, string SecretKey, string DomainPrefix)
+        {
+            domainPrefix = DomainPrefix;
+            accessKey = AccessKey;
+            secretKey = SecretKey;
+            domains = new string[] { };
+            Init();
+        }
+
         void Init()
         {
             client = new AmazonSimpleDBClient(accessKey, secretKey);
             foreach (string domain in domains)
             {
-                CreateDomainRequest request = new CreateDomainRequest().WithDomainName(domain);
+                string _domain = SetDomain(domain);
+                CreateDomainRequest request = new CreateDomainRequest().WithDomainName(_domain);
                 client.CreateDomain(request);
             }
         }
 
         public MCItem GetItem(string ItemName, string Domain)
         {
+            Domain = SetDomain(Domain);
             GetAttributesRequest request = new GetAttributesRequest().WithDomainName(Domain).WithItemName(ItemName);
             GetAttributesResponse response = client.GetAttributes(request);
             MCItem item = new MCItem();
@@ -78,6 +90,7 @@ namespace MultiCore.Amazon.Providers
 
         public void SaveItem(MCItem item)
         {
+            item.Domain = SetDomain(item.Domain);
             PutAttributesRequest request = new PutAttributesRequest().WithDomainName(item.Domain).WithItemName(item.ItemName);
             List<ReplaceableAttribute> attributes = new List<ReplaceableAttribute>();
             foreach (string key in item.Attributes.Keys)
@@ -95,6 +108,7 @@ namespace MultiCore.Amazon.Providers
         /// <returns></returns>
         public List<MCItem> GetItems(string Domain)
         {
+            Domain = SetDomain(Domain);
             SelectRequest request = new SelectRequest().WithSelectExpression("Select * from " + Domain);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
@@ -115,6 +129,7 @@ namespace MultiCore.Amazon.Providers
 
         public List<MCItem> Select(string Query, string Domain)
         {
+            Domain = SetDomain(Domain);
             SelectRequest request = new SelectRequest().WithSelectExpression(Query);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
@@ -129,8 +144,22 @@ namespace MultiCore.Amazon.Providers
 
         public void DeleteItem(string ItemName, string Domain)
         {
+            Domain = SetDomain(Domain);
             DeleteAttributesRequest request = new DeleteAttributesRequest().WithDomainName(Domain).WithItemName(ItemName);
             client.DeleteAttributes(request);
+        }
+
+        private string SetDomain(string Domain)
+        {
+            if (!string.IsNullOrEmpty(domainPrefix)) return domainPrefix + Domain;
+            else return Domain;
+        }
+
+        public void CreateDomain(string Domain)
+        {
+            Domain = SetDomain(Domain);
+            CreateDomainRequest request = new CreateDomainRequest().WithDomainName(Domain);
+            client.CreateDomain(request);
         }
     }
 }
