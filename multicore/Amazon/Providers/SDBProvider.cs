@@ -69,8 +69,8 @@ namespace MultiCore.Amazon.Providers
         /// <returns></returns>
         public override MCItem GetItem(string ItemName, string Domain)
         {
-            Domain = SetDomain(Domain);
-            GetAttributesRequest request = new GetAttributesRequest().WithDomainName(Domain).WithItemName(ItemName);
+            string sdbDomain = SetDomain(Domain);
+            GetAttributesRequest request = new GetAttributesRequest().WithDomainName(sdbDomain).WithItemName(ItemName);
             GetAttributesResponse response = client.GetAttributes(request);
             MCItem item = new MCItem();
             item.Domain = Domain;
@@ -103,8 +103,8 @@ namespace MultiCore.Amazon.Providers
         /// <returns></returns>
         public override List<MCItem> GetItems(string Domain)
         {
-            Domain = SetDomain(Domain);
-            SelectRequest request = new SelectRequest().WithSelectExpression("Select * from " + Domain);
+            string sdbDomain = SetDomain(Domain);
+            SelectRequest request = new SelectRequest().WithSelectExpression("Select * from " + sdbDomain);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
             foreach (Item sdb in response.SelectResult.Item)
@@ -124,7 +124,7 @@ namespace MultiCore.Amazon.Providers
 
         public override List<MCItem> Select(string Query, string Domain)
         {
-            Domain = SetDomain(Domain);
+            string sdbDomain = SetDomain(Domain);
             SelectRequest request = new SelectRequest().WithSelectExpression(Query);
             SelectResponse response = client.Select(request);
             List<MCItem> items = new List<MCItem>();
